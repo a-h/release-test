@@ -1,0 +1,28 @@
+name: Create and publish Docker image
+
+on:
+  push:
+    branches: ['main']
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Run
+        env:
+          GITHUB_USERNAME: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          . ./version.sh
+          . ./build.sh
+          . ./tag.sh
+        with:
+          registry: ${{ env.REGISTRY }}
+
