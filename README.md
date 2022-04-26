@@ -12,6 +12,7 @@
   * Except for setting the VERSION:
   * `. ./version.sh`
   * echo "VERSION=v1.0.`git rev-list --count HEAD`" VERSION=[Test] Add report file $(date +%d-%m-%Y)" >> $GITHUB_ENV
+* Always have CI commands run from the root directory.
 
 ## Process
 
