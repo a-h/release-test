@@ -21,9 +21,8 @@ fi
 # Node.js Docker example.
 docker build -t release-test:latest --progress plain ./node-docker-example/
 # Login.
-echo ${GITHUB_TOKEN} | docker login -username ghcr.io/${GITHUB_USERNAME} --password-stdin
+echo ${GITHUB_TOKEN} | docker login ghcr.io -u ${GITHUB_USERNAME} --password-stdin
 # Tag.
 docker tag release-test:latest ghcr.io/a-h/release-test:latest
 docker tag release-test:latest ghcr.io/a-h/release-test:${VERSION}
-docker push ghcr.io/a-h/release-test:${VERSION}
-docker push ghcr.io/a-h/release-test:latest
+docker push --all-tags ghcr.io/a-h/release-test
