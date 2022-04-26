@@ -25,4 +25,5 @@ echo ${GITHUB_TOKEN} | docker login -username ghcr.io/${GITHUB_USERNAME} --passw
 # Tag.
 docker tag release-test:latest ghcr.io/a-h/release-test:latest
 docker tag release-test:latest ghcr.io/a-h/release-test:${VERSION}
+docker push ghcr.io/a-h/release-test:${VERSION}
 docker push ghcr.io/a-h/release-test:latest
