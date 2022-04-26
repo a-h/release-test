@@ -23,6 +23,4 @@ jobs:
           . ./version.sh
           . ./build.sh
           . ./tag.sh
-        with:
-          registry: ${{ env.REGISTRY }}
 
