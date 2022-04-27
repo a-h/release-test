@@ -7,6 +7,8 @@ on:
 jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
+    # Use a base container that already has CDK installed in it.
+    container: ghcr.io/a-h/aws-go-cdk-action:main
     # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#permissions
     permissions:
       id-token: write # Required to authenticate against AWS.
@@ -26,6 +28,8 @@ jobs:
           . ./version.sh
           . ./build.sh
           . ./tag.sh
+          # Set the version environment variable in downstream tasks.
+          echo $VERSION >> $env:GITHUB_ENV
 
       - name: Assume deployment role
         uses: aws-actions/configure-aws-credentials@v1
@@ -37,7 +41,7 @@ jobs:
         env:
           REPO_OWNER: ${{ github.repository_owner }}
           REPO_NAME: ${{ github.event.repository.name }}
-          VERSION: ${VERSION}
+          VERSION: ${{ env.VERSION }}
           GITHUB_USERNAME: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.CI_USER_TOKEN }}
         run: |
