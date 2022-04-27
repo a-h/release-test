@@ -35,8 +35,8 @@ jobs:
 
       - name: Deploy to testing
         env:
-          REPO_OWNER: {{ github.repository_owner }}
-          REPO_NAME: {{ github.event.repository.name }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ github.event.repository.name }}
           GITHUB_USERNAME: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.CI_USER_TOKEN }}
         run: |
