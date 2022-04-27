@@ -29,7 +29,8 @@ jobs:
           . ./build.sh
           . ./tag.sh
           # Set the version environment variable in downstream tasks.
-          echo "VERSION=${VERSION}" >> $env:GITHUB_ENV
+          echo "Setting the version" ${VERSION}
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
 
       - name: Assume deployment role
         uses: aws-actions/configure-aws-credentials@v1
