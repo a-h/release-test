@@ -23,4 +23,4 @@ echo Running CDK deploy
 echo REPO_OWNER=${REPO_OWNER} 
 echo REPO_NAME=${REPO_NAME} 
 echo VERSION=${VERSION} 
-cd cdk && cdk deploy --require-approval=never
+docker run ghcr.io/${REPO_OWNER}/${REPO_NAME}:cdk-${VERSION} cdk deploy --require-approval=never
