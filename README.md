@@ -11,7 +11,6 @@
 * Put all the dependencies in the build Docker, don't mess about with the Github environment.
   * Except for setting the VERSION:
   * `. ./version.sh`
-  * echo "VERSION=v1.0.`git rev-list --count HEAD`" VERSION=[Test] Add report file $(date +%d-%m-%Y)" >> $GITHUB_ENV
 * Always have CI commands run from the root directory.
 
 ## Process
