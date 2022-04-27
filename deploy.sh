@@ -28,5 +28,13 @@ echo Running CDK deploy
 echo REPO_OWNER=${REPO_OWNER} 
 echo REPO_NAME=${REPO_NAME} 
 echo VERSION=${VERSION} 
-echo `env`
-docker run -e AWS_SESSION_TOKEN -e REPO_OWNER -e REPO_NAME -e VERSION ghcr.io/${REPO_OWNER}/${REPO_NAME}:cdk-${VERSION} deploy --require-approval=never
+docker run \
+	-e AWS_DEFAULT_REGION \
+	-e AWS_REGION \
+	-e AWS_ACCESS_KEY_ID \
+	-e AWS_SECRET_ACCESS_KEY \
+	-e AWS_SESSION_TOKEN \
+	-e REPO_OWNER \
+	-e REPO_NAME \
+	-e VERSION \
+	ghcr.io/${REPO_OWNER}/${REPO_NAME}:cdk-${VERSION} deploy --require-approval=never
