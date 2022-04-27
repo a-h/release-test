@@ -14,7 +14,7 @@ export class CIRoleStack extends Stack {
                         "repo:a-h/release-test:ref:refs/heads/main",
                 ]
                 const role = createGithubRole(this, allowedRepos, pb, roleCreatorPolicy);
-                new CfnOutput(this, "GithubRole", { value: role.roleArn })
+                new CfnOutput(this, "GithubRoleCfnOutput", { value: role.roleArn })
         }
 }
 
