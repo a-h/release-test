@@ -24,7 +24,7 @@ jobs:
           . ./build.sh
           . ./tag.sh
 
-     - name: Assume deployment role
+      - name: Assume deployment role
         uses: aws-actions/configure-aws-credentials@v1
         with:
           role-to-assume: ${{ secrets.CI_IAM_ROLE }}
