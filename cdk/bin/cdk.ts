@@ -13,7 +13,7 @@ const assertRequiredEnv = (name: string): string => {
 
 const app = new cdk.App();
 new CdkStack(app, 'CdkStack', {
-  repoName: assertRequiredEnv("REPO_NAME"),
   repoOwner: assertRequiredEnv("REPO_OWNER"),
+  repoName: assertRequiredEnv("REPO_NAME"),
   version: assertRequiredEnv("VERSION"),
 })
