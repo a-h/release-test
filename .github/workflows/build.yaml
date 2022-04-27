@@ -7,13 +7,15 @@ on:
 jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
+    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#permissions
     permissions:
-      contents: write
-      packages: write
+      id-token: write # Required to authenticate against AWS.
+      contents: write # Required to push a tag.
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+          fetch-depth: 0 # Pull all the history too.
 
       - name: Run
         env:
