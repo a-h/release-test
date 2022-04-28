@@ -1,5 +1,6 @@
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
+import * as iam from 'aws-cdk-lib/aws-iam';
 import * as ecr from 'aws-cdk-lib/aws-ecr';
 import * as ecrdeploy from 'cdk-ecr-deployment';
 
@@ -15,6 +16,13 @@ export interface ReleaseTestStackProps extends StackProps {
 export class CdkStack extends Stack {
         constructor(scope: Construct, id: string, props: ReleaseTestStackProps) {
                 super(scope, id, props);
+
+                const permissionsBoundary = iam.ManagedPolicy.fromManagedPolicyArn(
+                        this,
+                        'permissionsBoundary',
+                        `arn:aws:iam::${props.env?.account}:policy/ci-permissions-boundary`
+                )
+                iam.PermissionsBoundary.of(this).apply(permissionsBoundary)
 
                 // Create an ECR repository.
                 const ecrRepo = new ecr.Repository(this, "ecr", { imageScanOnPush: true })
