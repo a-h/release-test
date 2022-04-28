@@ -27,7 +27,7 @@ export class ReleaseTestStack extends Stack {
                 iam.PermissionsBoundary.of(this).apply(permissionsBoundary);
 
                 // Create an ECR repository.
-                const repositoryName = "ReleaseTestECR";
+                const repositoryName = "release-test";
                 new ecr.Repository(this, "ecr", {
                         repositoryName,
                         imageScanOnPush: true,
