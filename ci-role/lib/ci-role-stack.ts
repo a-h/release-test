@@ -87,16 +87,25 @@ const createPermissionsBoundary = (stack: Stack): iam.ManagedPolicy => {
                 sid: "AllowCloudFormationDeployment",
                 effect: iam.Effect.ALLOW,
                 actions: [
+                        "cloudformation:CreateChangeSet",
                         "cloudformation:CreateStack",
+                        "cloudformation:DeleteChangeSet",
+                        "cloudformation:DeleteStack",
+                        "cloudformation:DescribeChangeSet",
                         "cloudformation:DescribeStackEvents",
-                        "cloudformation:DescribeStackResources",
                         "cloudformation:DescribeStackResource",
+                        "cloudformation:DescribeStackResources",
                         "cloudformation:DescribeStacks",
                         "cloudformation:GetTemplate",
                         "cloudformation:ListStackResources",
                         "cloudformation:UpdateStack",
                         "cloudformation:ValidateTemplate",
-                        "cloudformation:DeleteStack",
+                        "cloudformation:CreateChangeSet",
+                        "cloudformation:DeleteChangeSet",
+                        "cloudformation:DescribeChangeSet",
+                        "cloudformation:DescribeChangeSetHooks",
+                        "cloudformation:ExecuteChangeSet",
+                        "cloudformation:ListChangeSets",
                 ],
                 resources: ["*"],
                 conditions: conditionRestrictToRegions,
@@ -158,6 +167,15 @@ const createPermissionsBoundary = (stack: Stack): iam.ManagedPolicy => {
                         "iam:DeletePolicy",
                 ],
                 resources: ["arn:aws:iam:::role/*"],
+        }))
+        // Allow PassRole to CDK deployment.
+        pb.addStatements(new iam.PolicyStatement({
+                sid: "AllowPassRole",
+                effect: iam.Effect.ALLOW,
+                actions: [
+                        "iam:PassRole",
+                ],
+                resources: ["*"],
         }))
         return pb
 
