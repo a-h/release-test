@@ -28,9 +28,13 @@ echo Running CDK deploy
 echo REPO_OWNER=${REPO_OWNER} 
 echo REPO_NAME=${REPO_NAME} 
 echo VERSION=${VERSION} 
+export AWS_ACCOUNT_ID=`aws sts get-caller-identity --query "Account" --output text`
+echo AWS_REGION=${AWS_REGION}
+echo AWS_ACCOUNT_ID=${AWS_ACCOUNT_ID}
 docker run \
 	-e AWS_DEFAULT_REGION \
 	-e AWS_REGION \
+	-e AWS_ACCOUNT_ID \
 	-e AWS_ACCESS_KEY_ID \
 	-e AWS_SECRET_ACCESS_KEY \
 	-e AWS_SESSION_TOKEN \

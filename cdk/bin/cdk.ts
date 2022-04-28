@@ -16,4 +16,8 @@ new ReleaseTestStack(app, 'ReleaseTestStack', {
   repoOwner: assertRequiredEnv("REPO_OWNER"),
   repoName: assertRequiredEnv("REPO_NAME"),
   version: assertRequiredEnv("VERSION"),
+  env: {
+    region: assertRequiredEnv("AWS_REGION"),
+    account: assertRequiredEnv("AWS_ACCOUNT_ID"),
+  },
 })
