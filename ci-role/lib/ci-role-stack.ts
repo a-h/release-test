@@ -196,7 +196,10 @@ const createRoleCreatorPolicy = (stack: Stack): iam.ManagedPolicy => new iam.Man
 const createGithubRole = (stack: Stack, allowedRepos: Array<string>, permissionsBoundary: iam.ManagedPolicy, roleCreatorPolicy: iam.ManagedPolicy): iam.Role => {
         const oidc = new iam.OpenIdConnectProvider(stack, "GithubOIDCProvider", {
                 url: "https://token.actions.githubusercontent.com",
-                thumbprints: ["15E29108718111E59B3DAD31954647E3C344A231"],
+                thumbprints: [
+                        "15E29108718111E59B3DAD31954647E3C344A231",
+                        "6938fd4d98bab03faadb97b34396831e3780aea1",
+                ],
                 clientIds: ["sts.amazonaws.com"],
         })
         const principal = new iam.FederatedPrincipal(oidc.openIdConnectProviderArn,
