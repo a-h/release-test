@@ -17,21 +17,25 @@ export class ReleaseTestStack extends Stack {
         constructor(scope: Construct, id: string, props: ReleaseTestStackProps) {
                 super(scope, id, props);
 
-                if(!props.env || !props.env.region || !props.env.account) {
+                if (!props.env || !props.env.region || !props.env.account) {
                         throw new Error("Invalid environment")
                 }
-                console.log('accountId:', props.env.account);
-                console.log('region', props.env.region);
+                console.log("accountId:", props.env.account);
+                console.log("region:", props.env.region);
 
                 const permissionsBoundary = iam.ManagedPolicy.fromManagedPolicyName(this, 'permissionsBoundary', 'ci-permissions-boundary')
                 iam.PermissionsBoundary.of(this).apply(permissionsBoundary);
 
                 // Create an ECR repository.
-                const ecrRepo = new ecr.Repository(this, "ecr", { imageScanOnPush: true })
+                const repositoryName = "ReleaseTestECR";
+                new ecr.Repository(this, "ecr", {
+                        repositoryName,
+                        imageScanOnPush: true,
+                });
 
                 // Copy from the Github source into ECR.
                 const src = `ghcr.io/${props.repoOwner}/${props.repoName}:${props.version}`;
-                const dest = ecrRepo.repositoryUriForTag(props.version);
+                const dest = `${props.env.account}.dkr.ecr.${props.env.region}.amazonaws.com/${repositoryName}:${props.version}`;
                 console.log(`Copying from ${src} to ${dest}`);
 
                 new ecrdeploy.ECRDeployment(this, 'copyFromGithubToECR', {
