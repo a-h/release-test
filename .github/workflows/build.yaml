@@ -38,6 +38,9 @@ jobs:
           role-to-assume: ${{ secrets.CI_IAM_ROLE }}
           aws-region: eu-west-1
 
+      - name: Show AWS role
+        run: aws sts get-caller-identity
+
       - name: Deploy to testing
         env:
           REPO_OWNER: ${{ github.repository_owner }}
