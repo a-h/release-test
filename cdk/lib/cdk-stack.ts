@@ -14,7 +14,7 @@ export interface ReleaseTestStackProps extends StackProps {
         version: string,
 }
 
-export class CdkStack extends Stack {
+export class ReleaseTestStack extends Stack {
         constructor(scope: Construct, id: string, props: ReleaseTestStackProps) {
                 super(scope, id, props);
 

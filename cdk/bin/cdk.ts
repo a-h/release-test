@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
-import { CdkStack } from '../lib/cdk-stack';
+import { ReleaseTestStack } from '../lib/cdk-stack';
 
 const assertRequiredEnv = (name: string): string => {
   const value = process.env[name];
@@ -12,7 +12,7 @@ const assertRequiredEnv = (name: string): string => {
 }
 
 const app = new cdk.App();
-new CdkStack(app, 'CdkStack', {
+new ReleaseTestStack(app, 'ReleaseTestStack', {
   repoOwner: assertRequiredEnv("REPO_OWNER"),
   repoName: assertRequiredEnv("REPO_NAME"),
   version: assertRequiredEnv("VERSION"),
