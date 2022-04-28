@@ -12,6 +12,7 @@ export class CIRoleStack extends Stack {
                 // TODO: Configure your allowed Github repos.
                 const allowedRepos = [
                         "repo:a-h/release-test:ref:refs/heads/main",
+                        //"repo:a-h/release-test:main",
                 ]
                 const role = createGithubRole(this, allowedRepos, pb, roleCreatorPolicy);
                 new CfnOutput(this, "GithubRoleCfnOutput", { value: role.roleArn })
@@ -196,26 +197,19 @@ const createRoleCreatorPolicy = (stack: Stack): iam.ManagedPolicy => new iam.Man
 const createGithubRole = (stack: Stack, allowedRepos: Array<string>, permissionsBoundary: iam.ManagedPolicy, roleCreatorPolicy: iam.ManagedPolicy): iam.Role => {
         const oidc = new iam.OpenIdConnectProvider(stack, "GithubOIDCProvider", {
                 url: "https://token.actions.githubusercontent.com",
-                thumbprints: [
-                        "15E29108718111E59B3DAD31954647E3C344A231",
-                        "6938fd4d98bab03faadb97b34396831e3780aea1",
-                ],
                 clientIds: ["sts.amazonaws.com"],
         })
-        const principal = new iam.FederatedPrincipal(oidc.openIdConnectProviderArn,
-                {
-                        "StringLike": {
-                                "token.actions.githubusercontent.com:sub": allowedRepos,
-                        },
+        const conditions: iam.Conditions = {
+                StringLike: {
+                        ["token.actions.githubusercontent.com:sub"]: allowedRepos,
                 },
-                "sts:AssumeRoleWithWebIdentity",
-        )
+        };
         return new iam.Role(stack, "GithubRole", {
                 managedPolicies: [
                         iam.ManagedPolicy.fromAwsManagedPolicyName("PowerUserAccess"),
                         roleCreatorPolicy,
                 ],
-                assumedBy: principal,
+                assumedBy: new iam.WebIdentityPrincipal(oidc.openIdConnectProviderArn, conditions),
                 permissionsBoundary: permissionsBoundary,
         })
 }
