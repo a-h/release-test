@@ -17,12 +17,13 @@ export class CdkStack extends Stack {
         constructor(scope: Construct, id: string, props: ReleaseTestStackProps) {
                 super(scope, id, props);
 
+                console.log(JSON.stringify(props.env));
                 const permissionsBoundary = iam.ManagedPolicy.fromManagedPolicyArn(
                         this,
                         'permissionsBoundary',
-                        `arn:aws:iam::${props.env?.account}:policy/ci-permissions-boundary`
-                )
-                iam.PermissionsBoundary.of(this).apply(permissionsBoundary)
+                        `arn:aws:iam:::policy/ci-permissions-boundary`
+                );
+                iam.PermissionsBoundary.of(this).apply(permissionsBoundary);
 
                 // Create an ECR repository.
                 const ecrRepo = new ecr.Repository(this, "ecr", { imageScanOnPush: true })
