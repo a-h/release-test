@@ -2,6 +2,16 @@
 set -e
 
 # Check environment.
+if [ "${GITHUB_TOKEN}" = "" || "$GITHUB_TOKEN" != "ghp_*" ]
+then
+	echo "Missing GITHUB_TOKEN"
+	return 1
+fi
+if [ "${GITHUB_USERNAME}" = "" ]
+then
+	echo "Missing GITHUB_USERNAME"
+	return 1
+fi
 if [ "${REPO_OWNER}" = "" ]
 then
 	echo "Missing REPO_OWNER"
@@ -38,7 +48,10 @@ docker run \
 	-e AWS_ACCESS_KEY_ID \
 	-e AWS_SECRET_ACCESS_KEY \
 	-e AWS_SESSION_TOKEN \
+	-e GITHUB_USERNAME \
+	-e GITHUB_TOKEN \
 	-e REPO_OWNER \
 	-e REPO_NAME \
 	-e VERSION \
+	-v /var/run/docker.sock:/var/run/docker.sock \
 	ghcr.io/${REPO_OWNER}/${REPO_NAME}:cdk-${VERSION} deploy --require-approval=never
