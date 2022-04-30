@@ -1,4 +1,5 @@
 #!/bin/sh
+echo "tag.sh"
 if [ "${VERSION}" = "" ]
 then
 	echo "Missing VERSION"

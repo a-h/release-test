@@ -2,6 +2,7 @@
 set -e
 
 # Check environment.
+echo "deploy.sh"
 if [ "${REPO_OWNER}" = "" ]
 then
 	echo "Missing REPO_OWNER"
