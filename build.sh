@@ -2,7 +2,7 @@
 set -e
 
 # Check environment.
-if [ "${GITHUB_TOKEN}" = "" || "$GITHUB_TOKEN" != "ghp_*" ]
+if [ "${GITHUB_TOKEN}" = "" ] || [ "$GITHUB_TOKEN" != "ghp_*" ]
 then
 	echo "Missing GITHUB_TOKEN"
 	return 1

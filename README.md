@@ -46,6 +46,7 @@ On Push to main:
   * Deploy (to testing) `./deploy.sh`
       * Assume role in the testing account.
       * Run the CDK Docker that was just created.
+      * AWS will need a Github token to copy Docker images from Github Packages (ghcr,io) to ECR. It will need to be created in AWS Secrets Manager and passed in as `GITHUB_SECRET_ARN`.
 
 ### To deploy to staging / production
 

@@ -11,6 +11,9 @@ export interface ReleaseTestStackProps extends StackProps {
         repoName: string,
         // Version number of the app to deploy, e.g. v1.0.1
         version: string,
+        // Name of username:password secret in Secrets Manager.
+        // aws secretsmanager create-secret --name github_pat --secret-string "a-h:"`pass github.com/a-h/PAT`
+        githubTokenSecretArn: string,
 }
 
 export class ReleaseTestStack extends Stack {
@@ -36,11 +39,18 @@ export class ReleaseTestStack extends Stack {
                 // Copy from the Github source into ECR.
                 const src = `ghcr.io/${props.repoOwner}/${props.repoName}:${props.version}`;
                 const dest = `${props.env.account}.dkr.ecr.${props.env.region}.amazonaws.com/${repositoryName}:${props.version}`;
-                console.log(`Copying from ${src} to ${dest}`);
+                console.log(`Copying from ${src} to ${dest} using source secret ${props.githubTokenSecretArn}`);
 
-                new ecrdeploy.ECRDeployment(this, 'copyFromGithubToECR', {
-                        src: new ecrdeploy.DockerImageName(src),
+                const deployment = new ecrdeploy.ECRDeployment(this, 'copyFromGithubToECR', {
+                        src: new ecrdeploy.DockerImageName(src, props.githubTokenSecretArn),
                         dest: new ecrdeploy.DockerImageName(dest),
-                });
+                })
+                deployment.addToPrincipalPolicy(new iam.PolicyStatement({
+                        effect: iam.Effect.ALLOW,
+                        actions: [
+                                'secretsmanager:GetSecretValue',
+                        ],
+                        resources: [props.githubTokenSecretArn],
+                }));
         }
 }
