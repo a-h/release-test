@@ -20,5 +20,5 @@ new ReleaseTestStack(app, 'ReleaseTestStack', {
     region: assertRequiredEnv("AWS_REGION"),
     account: assertRequiredEnv("AWS_ACCOUNT_ID"),
   },
-  githubTokenSecretArn: assertRequiredEnv("GITHUB_TOKEN_SECRET_ARN"),
+  githubTokenSecretArn: assertRequiredEnv("GH_TOKEN_SECRET_ARN"),
 })

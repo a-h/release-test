@@ -22,9 +22,9 @@ then
 	echo "Missing AWS_SESSION_TOKEN - is a role logged in?"
 	exit 1
 fi
-if [ "${GITHUB_TOKEN_SECRET_ARN}" = "" ]
+if [ "${GH_TOKEN_SECRET_ARN}" = "" ]
 then
-	echo "Missing GITHUB_TOKEN_SECRET_ARN"
+	echo "Missing GH_TOKEN_SECRET_ARN"
 	exit 1
 fi
 
@@ -46,5 +46,5 @@ docker run \
 	-e REPO_OWNER \
 	-e REPO_NAME \
 	-e VERSION \
-	-e GITHUB_TOKEN_SECRET_ARN \
+	-e GH_TOKEN_SECRET_ARN \
 	ghcr.io/${REPO_OWNER}/${REPO_NAME}:cdk-${VERSION} deploy --require-approval=never
