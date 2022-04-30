@@ -18,14 +18,14 @@ then
 	echo "Missing VERSION"
 	exit 1
 fi
-if [ "${AWS_SESSION_TOKEN}" = "" ]
-then
-	echo "Missing AWS_SESSION_TOKEN - is a role logged in?"
-	exit 1
-fi
 if [ "${GH_TOKEN_SECRET_ARN}" = "" ]
 then
 	echo "Missing GH_TOKEN_SECRET_ARN"
+	exit 1
+fi
+if [ "${AWS_SESSION_TOKEN}" = "" ]
+then
+	echo "Missing AWS_SESSION_TOKEN - is a role logged in?"
 	exit 1
 fi
 
